@@ -8,6 +8,7 @@
     using NineJoke.Data.Models;
     using NineJoke.Data.Repositories;
     using NineJoke.Data.Seeding;
+    using NineJoke.Services;
     using NineJoke.Services.Data;
     using NineJoke.Services.Mapping;
     using NineJoke.Services.Messaging;
@@ -99,6 +100,7 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISmsSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

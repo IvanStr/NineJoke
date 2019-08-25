@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.0.48" />
@@ -37,5 +38,10 @@
     <ProjectReference Include="..\..\Services\NineJoke.Services\NineJoke.Services.csproj" />
     <ProjectReference Include="..\NineJoke.Web.Infrastructure\NineJoke.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\NineJoke.Web.ViewModels\NineJoke.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+    <Folder Include="wwwroot\images\Posts\" />
   </ItemGroup>
 </Project>

@@ -1,15 +1,11 @@
-﻿using NineJoke.Data.Models;
-using NineJoke.Data;
-using System.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NineJoke.Data.Common.Repositories;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-
-namespace NineJoke.Services
+﻿namespace NineJoke.Services
 {
+    using System;
+    using System.Linq;
+
+    using NineJoke.Data;
+    using NineJoke.Data.Models;
+
     public class CategoryService : ICategoryService
     {
         private readonly ApplicationDbContext context;
@@ -28,13 +24,20 @@ namespace NineJoke.Services
                 CreatedOn = DateTime.Now,
             };
 
-            context.Add(category);
-            context.SaveChanges();
+            this.context.Add(category);
+            this.context.SaveChanges();
         }
 
         public IQueryable<Category> GetAll()
         {
             return this.context.Categories;
+        }
+
+        public Category GetCategoryByName(string name)
+        {
+            var category = this.context.Categories.FirstOrDefault(x => x.Name == name);
+
+            return category;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NineJoke.Data.Models
 {
-    public class ReportPost : BaseModel<string>
+    public class ReportPostServiceModel : BaseModel<string>
     {
         public string Reason { get; set; }
 

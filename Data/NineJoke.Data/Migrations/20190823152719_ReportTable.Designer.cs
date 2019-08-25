@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NineJoke.Data;
 
 namespace NineJoke.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190823152719_ReportTable")]
+    partial class ReportTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,8 +269,6 @@ namespace NineJoke.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn");
 
-                    b.Property<int>("ReportCount");
-
                     b.Property<string>("Tags");
 
                     b.Property<string>("Title");
@@ -496,7 +496,7 @@ namespace NineJoke.Data.Migrations
             modelBuilder.Entity("NineJoke.Data.Models.ReportPost", b =>
                 {
                     b.HasOne("NineJoke.Data.Models.Post", "Post")
-                        .WithMany("ReportPosts")
+                        .WithMany()
                         .HasForeignKey("PostId");
 
                     b.HasOne("NineJoke.Data.Models.ApplicationUser", "Reporter")

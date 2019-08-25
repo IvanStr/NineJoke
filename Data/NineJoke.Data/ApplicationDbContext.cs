@@ -31,6 +31,7 @@
         public DbSet<VotePost> VotePosts { get; set; }
         public DbSet<VoteComment> VoteComments { get; set; }
         public DbSet<PrivateMessage> PrivateMessages { get; set; }
+        public DbSet<ReportPost> ReportPosts { get; set; }
 
 
 

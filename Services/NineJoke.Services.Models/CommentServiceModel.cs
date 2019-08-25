@@ -5,9 +5,9 @@ using System.Text;
 
 namespace NineJoke.Data.Models
 {
-    public class Comment : BaseModel<string>
+    public class CommentServiceModel : BaseModel<string>
     {
-        public Comment()
+        public CommentServiceModel()
         {
             this.Votes = new HashSet<VoteComment>();
         }

@@ -35,12 +35,6 @@
         {
             var post = this.postService.GetPostById(Id);
 
-            //var categories = allCategories.Select(x => new SelectListItem
-            //{
-            //    Value = x.Name,
-            //    Text = x.Name,
-            //}).ToList();
-
             var model = new PostDetailsViewModel
             {
                 Id = post.Id,
@@ -83,7 +77,7 @@
         [HttpPost]
         public async Task<IActionResult> Create(PostInputModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 var allCategories = this.categoryService.GetAll();
 

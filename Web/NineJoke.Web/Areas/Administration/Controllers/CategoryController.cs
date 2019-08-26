@@ -17,7 +17,6 @@
             this.categoryService = categoryService;
         }
 
-
         public IActionResult CategoryList()
         {
             var viewModel = this.categoryService.GetAll().Select(x => new CategoryListingModel

@@ -1,9 +1,11 @@
 ﻿namespace NineJoke.Web.Controllers
 {
+    using System.Linq;
+
     using Microsoft.AspNetCore.Mvc;
+
     using NineJoke.Services;
     using NineJoke.Web.ViewModels;
-    using System.Linq;
 
     public class HomeController : BaseController
     {

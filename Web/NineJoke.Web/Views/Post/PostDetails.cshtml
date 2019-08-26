@@ -13,6 +13,25 @@
         width: 100%;
         object-fit: contain;
     }
+
+    /* HIDE RADIO */
+    [type=checkbox] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+        /* IMAGE STYLES */
+        [type=checkbox] + [id=a] {
+            cursor: pointer;
+            color: grey
+        }
+
+        /* CHECKED STYLES */
+        [type=checkbox]:checked + [id=a] {
+            color: blue;
+        }
 </style>
 
 <div align="center">
@@ -33,8 +52,15 @@
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
-                <a asp-controller="Favorites" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
-                <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Добави</a>
+                <label>
+                    <input type="checkbox" class="radio" value="-1" name="a" />
+                    <i id="a" class="fa fa-caret-down" style="font-size:50px;"></i>
+                </label>
+
+                <label>
+                    <input type="checkbox" class="radio" value="1" name="a" />
+                    <i id="a" class="fa fa-caret-up" style="font-size:50px;"></i>
+                </label>
             </div>
         </div>
     </div>
@@ -92,4 +118,19 @@
         });
         document.getElementById("myTextarea").value = "";
     }
+</script>
+
+<script>
+    $("input:checkbox").on('click', function () {
+        var $box = $(this);
+        if ($box.is(":checked")) {
+
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+        } else {
+            $box.prop("checked", false);
+        }
+    });
 </script>

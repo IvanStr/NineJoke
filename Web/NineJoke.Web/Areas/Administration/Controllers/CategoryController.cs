@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NineJoke.Services;
-using NineJoke.Web.Areas.Administration.InputModel.Category;
-using NineJoke.Web.Areas.Administration.ViewModels.Category;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NineJoke.Web.Areas.Administration.Controllers
+﻿namespace NineJoke.Web.Areas.Administration.Controllers
 {
+    using System.Linq;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using NineJoke.Services;
+    using NineJoke.Web.Areas.Administration.InputModel.Category;
+    using NineJoke.Web.Areas.Administration.ViewModels.Category;
+
     public class CategoryController : AdministrationController
     {
         private readonly ICategoryService categoryService;

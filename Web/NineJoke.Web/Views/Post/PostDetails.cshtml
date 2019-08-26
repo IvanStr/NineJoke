@@ -1,0 +1,95 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+
+}
+
+
+<style>
+
+    img {
+        width: 100%;
+        object-fit: contain;
+    }
+</style>
+
+<div align="center">
+    <div class="col-10 col-sm-10 col-md-8 col-lg-7 mb-7" style="padding-bottom: 20px">
+        <div class="card h-100">
+            <div>
+                <h2 class="card-title font-weight-bold">@Model.Title</h2>
+            </div>
+            <div class="card-img-top zoom">
+                <img src="@Model.FilePath" alt="@Model.Title">
+            </div>
+            <div>
+                <div style="text-align: left; width: 95%">
+                    <p><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.Description</h6></p>
+                </div>
+                <div class="pb-1 mt-1">
+                    <span class="stars mx-auto pb-1 text">points: @Model.VoteCount - @(Model.CommentCount == 1 ? "comment: " : "comments: ") @Model.CommentCount - Category: @Model.CategoryName</span>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
+                <a asp-controller="Favorites" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-danger btn-md"><i class="fas fa-heart"></i></a>
+                <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-primary btn-md"><i class="fas fa-shopping-cart"></i> Добави</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div align="center">
+    <div class="col-10 col-sm-10 col-md-8 col-lg-7 mb-7" style="padding-bottom: 20px">
+        <div class="card h-100">
+            <!--<input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>-->
+            <textarea id="myTextarea" placeholder="Write comments..." class="post focus" style="resize: none"></textarea>
+            <button onclick="@("myFunction('"+Model.Id+"')")" class="btn btn-primary" data-assigned-id="@Model.Id">Post</button>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function myFunction(elem) {
+        var Comment = document.getElementById("myTextarea").value;
+        var PostId = elem
+
+        var data = {Content: Comment, Id: PostId}
+        /*$.ajax({
+            url: 'Post/Test',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function () {
+                alert('success');
+            },
+            error: function () {
+                alert(data.Content);
+            }
+        });*/
+        var data2 = {Content: Comment}
+        console.log('Submitting form...');
+         $.ajax({
+            type: 'POST',
+            url: '/Post/AddComment',
+            dataType: 'json',
+             contentType: 'application/json',
+             data: JSON.stringify(data),
+             success: function (result) {
+                console.log(data);
+                console.log('Data received: ');
+                console.log(result);
+             },
+             error: function (result) {
+                console.log(data);
+                console.log('ERROR');
+                console.log(result);
+            }
+        });
+        document.getElementById("myTextarea").value = "";
+    }
+</script>

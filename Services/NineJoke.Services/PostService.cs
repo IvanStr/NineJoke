@@ -1,7 +1,7 @@
 ﻿namespace NineJoke.Services
 {
     using System.Linq;
-
+    using Microsoft.EntityFrameworkCore;
     using NineJoke.Data;
     using NineJoke.Data.Models;
 
@@ -37,6 +37,16 @@
 
             this.context.Posts.Add(post);
             this.context.SaveChanges();
+        }
+
+        public IQueryable<Post> GetAll()
+        {
+            return this.context.Posts.Include(x => x.Category.Name);
+        }
+
+        public Post GetPostById(string id)
+        {
+            return this.context.Posts.Include(x => x.Category).Include(x => x.Comments).FirstOrDefault(x => x.Id == id);
         }
     }
 }

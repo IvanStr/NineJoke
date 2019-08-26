@@ -1,12 +1,33 @@
 ﻿namespace NineJoke.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using NineJoke.Services;
+    using NineJoke.Web.ViewModels;
+    using System.Linq;
 
     public class HomeController : BaseController
     {
+        private readonly IPostService postService;
+
+        public HomeController(IPostService postService)
+        {
+            this.postService = postService;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = this.postService.GetAll().Select(x => new PostViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                FilePath = x.FilePath,
+                CategoryName = x.Category.Name,
+                Description = x.Description,
+                VoteCount = x.VoteCount,
+                CommentCount = x.CommentCount,
+            }).ToList();
+
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

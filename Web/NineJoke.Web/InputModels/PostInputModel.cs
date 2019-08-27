@@ -24,6 +24,7 @@
         public string Description { get; set; }
 
         [Required(ErrorMessage = RequiredField)]
+        [ValidateFile]
         public IFormFile Image { get; set; }
 
         [Required(ErrorMessage = "Полето \"{0}\" e задължително.")]

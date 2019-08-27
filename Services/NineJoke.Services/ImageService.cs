@@ -13,7 +13,9 @@
         {
             string urlName = title.Replace(" ", string.Empty).Substring(0, 5) + postId.Substring(0, 8);
 
-            var imagePath = string.Format(template, urlName);
+            var fileExt = System.IO.Path.GetExtension(formImage.FileName).Substring(1);
+
+            var imagePath = string.Format(template, urlName) + fileExt;
 
             using (var stream = new FileStream(imagePath, FileMode.Create))
             {

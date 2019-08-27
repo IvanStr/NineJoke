@@ -1,11 +1,14 @@
-﻿
-
-@{
+﻿@{
     this.ViewData["Title"] = "Home Page";
 }
 
 <style>
     img {
+        width: 100%;
+        object-fit: contain;
+    }
+
+    video {
         width: 100%;
         object-fit: contain;
     }
@@ -30,24 +33,30 @@
         }
 </style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to NineJoke!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
 <div align="center">
     @foreach (var post in Model)
     {
         <div class="col-10 col-sm-10 col-md-8 col-lg-7 mb-7" style="padding-bottom: 20px">
             <div class="card h-100">
                 <div>
-                    <a asp-controller="Post" asp-action="PostDetails" asp-route-id="@post.Id"><h2 class="card-title font-weight-bold">@post.Title</h2></a>
+                    <a asp-controller="Post" asp-action="PostDetails" asp-route-id="@post.Id"><h2 style="color:black;" class="card-title font-weight-bold">@post.Title</h2></a>
                 </div>
-                <a asp-controller="Post" asp-action="PostDetails" asp-route-id="@post.Id">
-                    <div class="card-img-top zoom">
-                        <img src="@post.FilePath" alt="@post.Title">
-                    </div>
-                </a>
+                @if (@post.FilePath.EndsWith("webm"))
+                {
+                        <div class="card-img-top zoom">
+                            <video controls>
+                                <source src="@post.FilePath" type="video/webm">
+                            </video>
+                        </div>
+                }
+                else
+                {
+                    <a asp-controller="Post" asp-action="PostDetails" asp-route-id="@post.Id">
+                        <div class="card-img-top zoom">
+                            <img src="@post.FilePath" alt="@post.Title">
+                        </div>
+                    </a>
+                }
                 <div>
                     <div style="text-align: left; width: 95%">
                         <p><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@post.Description</h6></p>

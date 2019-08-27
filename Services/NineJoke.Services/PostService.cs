@@ -40,6 +40,10 @@
                 return;
             }
 
+            string a = "asdasd";
+
+            a.EndsWith("asd");
+
             this.context.Posts.Add(post);
 
             var category = this.context.Categories.FirstOrDefault(x => x.Name == post.Category.Name);

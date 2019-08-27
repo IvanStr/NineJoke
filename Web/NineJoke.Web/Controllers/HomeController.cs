@@ -21,13 +21,14 @@
             var viewModel = this.postService.GetAll().Select(x => new PostViewModel
             {
                 Id = x.Id,
+                CreatedOn = x.CreatedOn,
                 Title = x.Title,
                 FilePath = x.FilePath,
                 CategoryName = x.Category.Name,
                 Description = x.Description,
                 VoteCount = x.VoteCount,
                 CommentCount = x.CommentCount,
-            }).ToList();
+            }).ToList().OrderByDescending(x => x.CreatedOn);
 
             return this.View(viewModel);
         }

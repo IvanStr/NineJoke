@@ -48,9 +48,12 @@
 
             model.Comments = post.Comments.Select(x => new CommentsViewModel
             {
+                Id = x.Id,
                 Content = x.Content,
+                VoteCount = x.VoteCount,
                 CreatedOn = x.CreatedOn,
                 UserId = x.UserId,
+                UserName = x.User.UserName,
                 PostId = x.PostId,
             }).ToList();
 

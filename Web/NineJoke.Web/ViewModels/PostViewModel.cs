@@ -1,8 +1,12 @@
 ﻿namespace NineJoke.Web.ViewModels
 {
+    using System;
+
     public class PostViewModel
     {
         public string Id { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public string Title { get; set; }
 

@@ -1,7 +1,9 @@
 ﻿namespace NineJoke.Services
 {
-    using NineJoke.Data.Models;
+    using System.Collections.Generic;
     using System.Linq;
+
+    using NineJoke.Data.Models;
 
     public interface IPostService
     {
@@ -12,5 +14,9 @@
         void AddImageUrl(string id, string imageUrl);
 
         IQueryable<Post> GetAll();
+
+        IQueryable<Post> GetPostsByUserName(string name);
+
+        IQueryable<Post> GetPostsUserComments(string name);
     }
 }

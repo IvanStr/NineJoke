@@ -71,7 +71,7 @@
         <div class="card h-100">
             <!--<input asp-for="Name" class="form-control" />
     <span asp-validation-for="Name" class="text-danger"></span>-->
-            <textarea id="myTextarea" placeholder="Write comments..." class="post focus" style="resize: none"></textarea>
+            <textarea id="myTextarea" placeholder="Write a comment..." class="post focus" style="resize: none"></textarea>
             <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
                
                 <button onclick="@("myFunction('"+Model.Id+"')")" class="btn btn-primary" data-assigned-id="@Model.Id">Post</button>
@@ -93,15 +93,15 @@
                 <textarea id="myTextarea" class="post focus" style="resize: none" readonly>@comment.Content</textarea>
             
 
-            <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
-                <label>
-                    <input type="checkbox" class="radio" value="-1" name=@comment.Id />
-                    <i id="a" class="fa fa-caret-down" style="font-size:50px;"></i>
+            <div class="card-footer justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
+                <label style="float: left;">
+                    <input type="checkbox" class="radio" value="1" name=@comment.Id />
+                    <i id="a" class="fa fa-caret-up" style="font-size:30px;"></i>
                 </label>
 
-                <label>
-                    <input type="checkbox" class="radio" value="1" name=@comment.Id />
-                    <i id="a" class="fa fa-caret-up" style="font-size:50px;"></i>
+                <label style="float: left;">
+                    <input type="checkbox" class="radio" value="-1" name=@comment.Id />
+                    <i id="a" class="fa fa-caret-down" style="font-size:30px;"></i>
                 </label>
             </div>
         </div>

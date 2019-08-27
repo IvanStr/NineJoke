@@ -31,10 +31,33 @@
             </div>
             <div class="form-group">
                 <label asp-for="Image"></label>
-                <input asp-for="Image" class="form-control" />
+                <input asp-for="Image" class="form-control" id="gallery-photo-add" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
     </div>
 </div>
+
+<div class="image" align="center"></div>
+
+<script>
+    $(function () {
+        // Multiple images preview in browser
+        var imagesPreview = function (input, placeToInsertImagePreview) {
+            if (input.files) {
+                var filesAmount = input.files.length;
+                for (i = 0; i < filesAmount; i++) {
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+        };
+        $('#gallery-photo-add').on('change', function () {
+            imagesPreview(this, 'div.image');
+        });
+    });
+</script>

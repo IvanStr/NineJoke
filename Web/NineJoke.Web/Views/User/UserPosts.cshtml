@@ -1,0 +1,65 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div>
+    <partial name="_UserProfileOptions" />
+</div>
+
+<style>
+    img {
+        width: 100%;
+        height: 300px;
+        object-fit: contain;
+    }
+
+    /* HIDE RADIO */
+    [type=checkbox] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+        /* IMAGE STYLES */
+        [type=checkbox] + [id=a] {
+            cursor: pointer;
+            color: grey
+        }
+
+        /* CHECKED STYLES */
+        [type=checkbox]:checked + [id=a] {
+            color: blue;
+        }
+</style>
+
+<div class="row">
+    @foreach (var post in Model)
+    {
+        <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3" style="padding-bottom: 20px">
+            <div class="card h-100">
+                <div calss="mb-0">
+                    <a asp-controller="Post" asp-action="PostDetails" asp-route-id="@post.Id"><h5 align="center" class="card-title font-weight-bold">@post.Title</h5></a>
+                </div>
+                <a asp-controller="Post" asp-action="PostDetails" asp-route-id="@post.Id">
+                    <div class="card-img-top zoom">
+                        <img src="@post.FilePath" alt="@post.Title">
+                    </div>
+                </a>
+                <div>
+                    <div class="pb-1 mt-1">
+                        <span class="stars mx-auto pb-1 text">points: @post.VoteCount</span>
+                    </div>
+                    <div class="pb-1 mt-1">
+                        <span class="stars mx-auto pb-1 text">@(post.CommentCount == 1 ? "comment: " : "comments: ") @post.CommentCount</span>
+                    </div>
+                    <div class="pb-1 mt-1">
+                        <span class="stars mx-auto pb-1 text">Category: @post.CategoryName</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

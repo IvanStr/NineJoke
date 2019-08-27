@@ -23,5 +23,10 @@
 
             this.context.SaveChanges();
         }
+
+        public IQueryable<Comment> GetCommentsByUserName(string name)
+        {
+            return this.context.Comments.Where(x => x.User.UserName == name);
+        }
     }
 }

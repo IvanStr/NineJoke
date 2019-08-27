@@ -1,5 +1,6 @@
 ﻿namespace NineJoke.Services
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using Microsoft.EntityFrameworkCore;
@@ -10,10 +11,12 @@
     public class PostService : IPostService
     {
         private readonly ApplicationDbContext context;
+        private readonly ICommentService commentService;
 
-        public PostService(ApplicationDbContext context)
+        public PostService(ApplicationDbContext context, ICommentService commentService)
         {
             this.context = context;
+            this.commentService = commentService;
         }
 
         public void AddImageUrl(string id, string imageUrl)
@@ -53,6 +56,34 @@
         public Post GetPostById(string id)
         {
             return this.context.Posts.Include(x => x.Category).Include(x => x.Comments).ThenInclude(z => z.User).FirstOrDefault(x => x.Id == id);
+        }
+
+        public IQueryable<Post> GetPostsByUserName(string name)
+        {
+            return this.context.Posts.Where(x => x.User.UserName == name);
+        }
+
+        public IQueryable<Post> GetPostsUserComments(string name)
+        {
+            var comments = this.commentService.GetCommentsByUserName(name);
+
+            List<Post> posts = new List<Post>();
+
+            foreach (var comment in comments)
+            {
+                var post = this.context.Posts.FirstOrDefault(x => x.Id == comment.PostId);
+
+                if (!posts.Contains(post))
+                {
+                    posts.Add(post);
+                }
+            }
+
+            var queryable = posts.AsQueryable();
+
+            return queryable;
+
+            //return this.context.Posts.Where(x => x.User.UserName == name);
         }
     }
 }

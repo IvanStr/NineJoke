@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model NineJoke.Web.Areas.Administration.InputModel.Category.CreateCategoryInputModel
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" class="form border-primary-4 rounded p-3 w-30 mx-auto mt-3">
+            <h4>Edit category.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" value="@Model.Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
+</div>

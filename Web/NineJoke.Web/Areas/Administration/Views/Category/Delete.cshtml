@@ -1,0 +1,20 @@
+﻿@model NineJoke.Web.Areas.Administration.InputModel.Category.CreateCategoryInputModel
+
+@{
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" class="form border-primary-4 rounded p-3 w-30 mx-auto mt-3">
+            <h4>Are you sure you want to delete this category?</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" value="@Model.Name" readonly/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Delete</button>
+        </form>
+    </div>
+</div>

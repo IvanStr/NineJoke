@@ -41,5 +41,49 @@
 
             return this.RedirectToAction("CategoryList");
         }
+
+        public IActionResult Edit(string id)
+        {
+            var category = this.categoryService.GetCategoryById(id);
+
+            var model = new CreateCategoryInputModel
+            {
+                Id = category.Id,
+                Name = category.Name,
+            };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(CreateCategoryInputModel viewModel)
+        {
+            var category = this.categoryService.GetCategoryById(viewModel.Id);
+
+            this.categoryService.EditCategory(viewModel.Name, viewModel.Id);
+
+            return this.RedirectToAction("CategoryList");
+        }
+
+        public IActionResult Delete(string id)
+        {
+            var category = this.categoryService.GetCategoryById(id);
+
+            var model = new CreateCategoryInputModel
+            {
+                Id = category.Id,
+                Name = category.Name,
+            };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(CreateCategoryInputModel viewModel)
+        {
+            this.categoryService.DeleteCategory(viewModel.Id);
+
+            return this.RedirectToAction("CategoryList");
+        }
     }
 }

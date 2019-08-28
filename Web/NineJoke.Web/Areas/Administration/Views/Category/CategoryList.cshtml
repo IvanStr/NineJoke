@@ -18,16 +18,28 @@
         <tbody>
             @foreach (var category in Model)
             {
-                <tr class="row">
-                    <td class="col-lg-5">@category.Name</td>
-                    <td class="col-lg-5">@category.Popularity</td>
-                    <td class="col-lg-2">
-                        <div class="button-holder">
-                            <a href="/Carts/AddProduct?productId=@category.Id" class="btn btn-outline-primary">Edit</a>
-                            <a href="/Carts/AddProduct?productId=@category.Id" class="btn btn-outline-primary">Delete</a>
-                        </div>
-                    </td>
-                </tr>
+                @if (category.Name == "Uncategorized")
+                {
+                    <tr class="row">
+                        <td class="col-lg-5">@category.Name</td>
+                        <td class="col-lg-5">@category.Popularity</td>
+                        <td class="col-lg-2">
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="row">
+                        <td class="col-lg-5">@category.Name</td>
+                        <td class="col-lg-5">@category.Popularity</td>
+                        <td class="col-lg-2">
+                            <div class="button-holder">
+                                <a asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-outline-primary">Edit</a>
+                                <a asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-outline-primary">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>

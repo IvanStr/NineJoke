@@ -11,5 +11,11 @@
         IQueryable<Category> GetAll();
 
         Category GetCategoryByName(string name);
+
+        Category GetCategoryById(string id);
+
+        void EditCategory(string name, string id);
+
+        void DeleteCategory(string id);
     }
 }

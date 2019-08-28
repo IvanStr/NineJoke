@@ -12,5 +12,7 @@
         [Required(ErrorMessage = NameErrorMessage)]
         [StringLength(NameMaxLenght, ErrorMessage = NameLengthError, MinimumLength = NameMinLenght)]
         public string Name { get; set; }
+
+        public string Id { get; set; }
     }
 }

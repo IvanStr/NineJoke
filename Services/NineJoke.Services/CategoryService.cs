@@ -8,7 +8,7 @@
 
     public class CategoryService : ICategoryService
     {
-        public const string Uncategorized = "Uncategorized";
+        private const string Uncategorized = "Uncategorized";
 
         private readonly ApplicationDbContext context;
 

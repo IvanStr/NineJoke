@@ -1,11 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-
+﻿@{
 
 }
-
+@using NineJoke.Common
 
 <style>
 
@@ -79,6 +75,18 @@
                     <i id="a" class="fa fa-caret-up" style="font-size:50px;"></i>
                 </label>
             </div>
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <div>
+                    <a asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-primary">Delete</a>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a asp-controller="Report" asp-action="ReportPost" asp-route-id="@Model.Id" class="btn btn-primary">Report</a>
+                </div>
+            }
         </div>
     </div>
 </div>

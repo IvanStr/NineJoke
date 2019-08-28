@@ -200,7 +200,7 @@
         {
             var post = this.postService.GetPostById(viewModel.Id);
 
-            this.postService.DeletePost(post.Id);
+            this.postService.DeletePost(viewModel.Id);
 
             return this.RedirectToAction("UserPosts", "User");
         }

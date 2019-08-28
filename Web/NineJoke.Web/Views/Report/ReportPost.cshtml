@@ -1,0 +1,21 @@
+﻿@model NineJoke.Web.InputModels.ReportInputModel
+
+@{
+    ViewData["Title"] = "Report Post";
+}
+
+<div align="center">
+    <div class="col-md-7">
+        <form asp-controller="Report" asp-action="ReportPost" enctype="multipart/form-data" method="post" class="form border-primary-4 rounded p-3 w-30 mx-auto mt-3">
+            <h1>Report Page</h1>
+            <h4>Give us the right reason help us process the report as soon as possible.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <textarea asp-for="ReportReason" class="form-control" style="resize: vertical;" rows="6"></textarea>
+                <span asp-validation-for="ReportReason" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Report</button>
+        </form>
+    </div>
+</div>

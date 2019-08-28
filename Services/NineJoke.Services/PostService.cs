@@ -12,11 +12,13 @@
     {
         private readonly ApplicationDbContext context;
         private readonly ICommentService commentService;
+        private readonly IReportService reportService;
 
-        public PostService(ApplicationDbContext context, ICommentService commentService)
+        public PostService(ApplicationDbContext context, ICommentService commentService, IReportService reportService)
         {
             this.context = context;
             this.commentService = commentService;
+            this.reportService = reportService;
         }
 
         public void AddImageUrl(string id, string imageUrl)
@@ -40,10 +42,6 @@
                 return;
             }
 
-            string a = "asdasd";
-
-            a.EndsWith("asd");
-
             this.context.Posts.Add(post);
 
             var category = this.context.Categories.FirstOrDefault(x => x.Name == post.Category.Name);
@@ -56,11 +54,17 @@
         {
             var post = this.GetPostById(id);
 
-            this.context.Posts.Remove(post);
-
             var category = this.context.Categories.FirstOrDefault(x => x.Name == post.Category.Name);
             category.Popularity--;
 
+            var reports = this.reportService.GetReportsByPostId(id);
+
+            if (reports != null)
+            {
+                this.context.RemoveRange(reports);
+            }
+
+            this.context.Posts.Remove(post);
             this.context.SaveChanges();
         }
 

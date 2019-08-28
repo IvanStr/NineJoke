@@ -11,6 +11,10 @@
 
         Post GetPostById(string id);
 
+        void EditPost(string titel, string description, string id);
+
+        void DeletePost(string id);
+
         void AddImageUrl(string id, string imageUrl);
 
         IQueryable<Post> GetAll();

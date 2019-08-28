@@ -8,6 +8,8 @@
     {
         void CreateComment(Comment comment);
 
+        IQueryable<Comment> GetcommentsByPostId(string id);
+
         IQueryable<Comment> GetCommentsByUserName(string name);
     }
 }

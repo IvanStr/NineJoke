@@ -35,6 +35,11 @@
         {
             var post = this.postService.GetPostById(Id);
 
+            if (post == null)
+            {
+                return this.View("MissingPost");
+            }
+
             var model = new PostDetailsViewModel
             {
                 Id = post.Id,
@@ -139,10 +144,55 @@
             //return this.RedirectToAction(nameof(this.PostDetails), new { Id = model.Id });
         }
 
-        [HttpPost]
-        public IActionResult Test([FromBody] CommentInputModel model)
+        [Authorize]
+        public IActionResult Edit(string id)
         {
-            return new JsonResult(model);
+            var post = this.postService.GetPostById(id);
+
+            var model = new PostInputModel
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Description = post.Description,
+            };
+
+            return this.View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit(PostInputModel viewModel)
+        {
+            this.postService.EditPost(viewModel.Title, viewModel.Description, viewModel.Id);
+
+            return this.RedirectToAction("UserPosts", "User");
+        }
+
+        [Authorize]
+        public IActionResult Delete(string id)
+        {
+            var post = this.postService.GetPostById(id);
+
+            var model = new PostDeleteViewModel
+            {
+                Id = post.Id,
+                Title = post.Title,
+                ImageUrl = post.FilePath,
+                Description = post.Description,
+            };
+
+            return this.View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Delete(PostDeleteViewModel viewModel)
+        {
+            var post = this.postService.GetPostById(viewModel.Id);
+
+            this.postService.DeletePost(post.Id);
+
+            return this.RedirectToAction("UserPosts", "User");
         }
     }
 }

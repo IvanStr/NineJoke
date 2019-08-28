@@ -65,17 +65,23 @@
                         </div>
                     </a>
                 }
-                <div>
-                    <div class="pb-1 mt-1">
-                        <span class="stars mx-auto pb-1 text">points: @post.VoteCount</span>
-                    </div>
-                    <div class="pb-1 mt-1">
-                        <span class="stars mx-auto pb-1 text">@(post.CommentCount == 1 ? "comment: " : "comments: ") @post.CommentCount</span>
-                    </div>
-                    <div class="pb-1 mt-1">
-                        <span class="stars mx-auto pb-1 text">Category: @post.CategoryName</span>
-                    </div>
+            <div>
+                <div style="float: left; width: 50%;" class="pb-1 mt-1">
+                    <span class="stars mx-auto pb-1 text">points: @post.VoteCount</span>
                 </div>
+                <div align="right" style="float: right; width: 50%;">
+                    <a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-outline-primary">Edit</a>
+                </div>
+                <div style="float: left; width: 50%;" class="pb-1 mt-1">
+                    <span class="stars mx-auto pb-1 text">@(post.CommentCount == 1 ? "comment: " : "comments: ") @post.CommentCount</span>
+                </div>
+                <div align="right" style="float: right; width: 50%;">
+                    <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-outline-primary">Delete</a>
+                </div>
+                <div style="float: left; width: 50%;" class="pb-1 mt-1">
+                    <span class="stars mx-auto pb-1 text">Category: @post.CategoryName</span>
+                </div>
+            </div>
             </div>
         </div>
     }

@@ -27,9 +27,13 @@
         [ValidateFile]
         public IFormFile Image { get; set; }
 
+        public string ImageUrl { get; set; }
+
         [Required(ErrorMessage = "Полето \"{0}\" e задължително.")]
         public string Category { get; set; }
 
         public ICollection<SelectListItem> Categories { get; set; }
+
+        public string Id { get; set; }
     }
 }

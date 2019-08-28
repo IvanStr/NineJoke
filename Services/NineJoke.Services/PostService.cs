@@ -52,6 +52,28 @@
             this.context.SaveChanges();
         }
 
+        public void DeletePost(string id)
+        {
+            var post = this.GetPostById(id);
+
+            this.context.Posts.Remove(post);
+
+            var category = this.context.Categories.FirstOrDefault(x => x.Name == post.Category.Name);
+            category.Popularity--;
+
+            this.context.SaveChanges();
+        }
+
+        public void EditPost(string titel, string description, string id)
+        {
+            var post = this.GetPostById(id);
+
+            post.Title = titel;
+            post.Description = description;
+
+            this.context.SaveChanges();
+        }
+
         public IQueryable<Post> GetAll()
         {
             return this.context.Posts.Include(x => x.Category.Name);

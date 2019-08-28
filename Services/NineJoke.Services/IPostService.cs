@@ -11,7 +11,7 @@
 
         Post GetPostById(string id);
 
-        void EditPost(string titel, string description, string id);
+        void EditPost(string categoryName, string titel, string description, string id);
 
         void DeletePost(string id);
 

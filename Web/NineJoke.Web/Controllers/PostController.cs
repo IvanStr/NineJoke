@@ -149,11 +149,20 @@
         {
             var post = this.postService.GetPostById(id);
 
+            var allCategories = this.categoryService.GetAll();
+
+            var categories = allCategories.Select(x => new SelectListItem
+            {
+                Value = x.Name,
+                Text = x.Name,
+            }).ToList();
+
             var model = new PostInputModel
             {
                 Id = post.Id,
                 Title = post.Title,
                 Description = post.Description,
+                Categories = categories,
             };
 
             return this.View(model);
@@ -163,7 +172,7 @@
         [HttpPost]
         public IActionResult Edit(PostInputModel viewModel)
         {
-            this.postService.EditPost(viewModel.Title, viewModel.Description, viewModel.Id);
+            this.postService.EditPost(viewModel.Category, viewModel.Title, viewModel.Description, viewModel.Id);
 
             return this.RedirectToAction("UserPosts", "User");
         }
@@ -179,6 +188,7 @@
                 Title = post.Title,
                 ImageUrl = post.FilePath,
                 Description = post.Description,
+                Category = post.Category.Name,
             };
 
             return this.View(model);

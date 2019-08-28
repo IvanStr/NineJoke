@@ -64,12 +64,18 @@
             this.context.SaveChanges();
         }
 
-        public void EditPost(string titel, string description, string id)
+        public void EditPost(string categoryName, string titel, string description, string id)
         {
             var post = this.GetPostById(id);
 
+            this.context.Categories.FirstOrDefault(x => x.Id == post.Categoryid).Popularity--;
+
+            var newCategory = this.context.Categories.FirstOrDefault(x => x.Name == categoryName);
+            newCategory.Popularity++;
+
             post.Title = titel;
             post.Description = description;
+            post.Category = newCategory;
 
             this.context.SaveChanges();
         }

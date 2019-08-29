@@ -24,7 +24,7 @@
                 Id = x.Id,
                 Name = x.Name,
                 Popularity = x.Popularity,
-            }).ToList();
+            }).ToList().OrderByDescending(x => x.Name);
 
             return this.View(viewModel);
         }

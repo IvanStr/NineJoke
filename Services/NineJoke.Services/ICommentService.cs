@@ -6,7 +6,11 @@
 
     public interface ICommentService
     {
+        Comment GetById(string id);
+
         void CreateComment(Comment comment);
+
+        void DeleteComment(string id);
 
         IQueryable<Comment> GetcommentsByPostId(string id);
 

@@ -1,5 +1,6 @@
 ﻿namespace NineJoke.Web.ViewModels
 {
+    using System;
     using System.Collections.Generic;
 
     public class PostDetailsViewModel
@@ -7,6 +8,10 @@
         public string Id { get; set; }
 
         public string Title { get; set; }
+
+        public string Uploader { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public string FilePath { get; set; }
 

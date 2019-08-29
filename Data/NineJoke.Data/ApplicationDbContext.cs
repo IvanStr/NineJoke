@@ -6,8 +6,8 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using NineJoke.Data.Common.Models;
     using NineJoke.Data.Models;
+    using NineJoke.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;

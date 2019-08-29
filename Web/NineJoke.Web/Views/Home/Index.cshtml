@@ -40,7 +40,7 @@
 <div align="center">
     @foreach (var post in Model.PostViewModel)
     {
-        <div class="col-10 col-sm-10 col-md-8 col-lg-7 mb-7" style="padding-bottom: 20px">
+        <div class="col-10 col-sm-10 col-md-8 col-lg-7 mb-7 mt-5" style="padding-bottom: 20px">
             <div class="card h-100">
                 <div>
                     <a asp-controller="Post" asp-action="PostDetails" asp-route-id="@post.Id"><h2 style="color:black;" class="card-title font-weight-bold">@post.Title</h2></a>
@@ -69,17 +69,20 @@
                         <span class="stars mx-auto pb-1 text">points: @post.VoteCount - @(post.CommentCount == 1 ? "comment: " : "comments: ") @post.CommentCount - Category: @post.CategoryName</span>
                     </div>
                 </div>
-                <div class="card-footer d-flex justify-content-around bg-white pl-0 pr-0 pt-0 pb-0">
-                    <label>
-                        <input type="checkbox" class="radio" value="-1" name=@post.Id />
-                        <i id="a" class="fa fa-caret-down" style="font-size:50px;"></i>
-                    </label>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="card-footer d-flex justify-content-around bg-white pl-0 pr-0 pt-0 pb-0">
+                        <label>
+                            <input type="checkbox" class="radio" value="-1" name=@post.Id />
+                            <i id="a" class="fa fa-caret-down" style="font-size:50px;"></i>
+                        </label>
 
-                    <label>
-                        <input type="checkbox" class="radio" value="1" name=@post.Id />
-                        <i id="a" class="fa fa-caret-up" style="font-size:50px;"></i>
-                    </label>
-                </div>
+                        <label>
+                            <input type="checkbox" class="radio" value="1" name=@post.Id />
+                            <i id="a" class="fa fa-caret-up" style="font-size:50px;"></i>
+                        </label>
+                    </div>
+                }
             </div>
         </div>
     }

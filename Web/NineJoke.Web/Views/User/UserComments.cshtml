@@ -24,6 +24,9 @@
                         <label>
                             <a asp-controller="Post" asp-action="PostDetails" asp-route-id="@comment.PostId" class="btn btn-primary">Go to post</a>
                         </label>
+                        <label>
+                            <a asp-controller="Post" asp-action="DeleteComment" asp-route-id="@comment.Id" class="btn btn-primary">Delete</a>
+                        </label>
                     </div>
                 </div>
             </div>

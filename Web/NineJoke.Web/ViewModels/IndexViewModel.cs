@@ -9,5 +9,7 @@
         public IList<Category> Categories { get; set; }
 
         public IList<PostViewModel> PostViewModel { get; set; }
+
+        public string sortType { get; set; }
     }
 }

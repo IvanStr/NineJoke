@@ -44,6 +44,8 @@
             {
                 Id = post.Id,
                 Title = post.Title,
+                Uploader = post.User.UserName,
+                CreatedOn = post.CreatedOn,
                 FilePath = post.FilePath,
                 Description = post.Description,
                 CategoryName = post.Category.Name,
@@ -142,6 +144,14 @@
             this.commentService.CreateComment(comment);
             return new JsonResult(model);
             //return this.RedirectToAction(nameof(this.PostDetails), new { Id = model.Id });
+        }
+
+        [Authorize]
+        public IActionResult DeleteComment(string id)
+        {
+            this.commentService.DeleteComment(id);
+
+            return this.RedirectToAction("UserComments","User");
         }
 
         [Authorize]

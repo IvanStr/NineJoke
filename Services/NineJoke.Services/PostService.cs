@@ -23,7 +23,8 @@
 
         public void AddImageUrl(string id, string imageUrl)
         {
-            var post = this.context.Posts.FirstOrDefault(x => x.Id == id);
+            var post = this.context.Posts
+                .FirstOrDefault(x => x.Id == id);
 
             if (post == null)
             {
@@ -44,7 +45,8 @@
 
             this.context.Posts.Add(post);
 
-            var category = this.context.Categories.FirstOrDefault(x => x.Name == post.Category.Name);
+            var category = this.context.Categories
+                .FirstOrDefault(x => x.Name == post.Category.Name);
             category.Popularity++;
 
             this.context.SaveChanges();
@@ -54,7 +56,8 @@
         {
             var post = this.GetPostById(id);
 
-            var category = this.context.Categories.FirstOrDefault(x => x.Name == post.Category.Name);
+            var category = this.context.Categories
+                .FirstOrDefault(x => x.Name == post.Category.Name);
             category.Popularity--;
 
             var reports = this.reportService.GetReportsByPostId(id);
@@ -72,9 +75,11 @@
         {
             var post = this.GetPostById(id);
 
-            this.context.Categories.FirstOrDefault(x => x.Id == post.Categoryid).Popularity--;
+            this.context.Categories
+                .FirstOrDefault(x => x.Id == post.Categoryid).Popularity--;
 
-            var newCategory = this.context.Categories.FirstOrDefault(x => x.Name == categoryName);
+            var newCategory = this.context.Categories
+                .FirstOrDefault(x => x.Name == categoryName);
             newCategory.Popularity++;
 
             post.Title = titel;
@@ -88,11 +93,15 @@
         {
             if (sort == null || sort.Equals(SortType.Popular.ToString()))
             {
-                return this.context.Posts.OrderByDescending(x => x.VoteCount).Include(x => x.Category.Name);
+                return this.context.Posts
+                    .OrderByDescending(x => x.VoteCount)
+                    .Include(x => x.Category.Name);
             }
             else if (sort.Equals(SortType.New.ToString()))
             {
-                return this.context.Posts.OrderByDescending(x => x.CreatedOn).Include(x => x.Category.Name);
+                return this.context.Posts
+                    .OrderByDescending(x => x.CreatedOn)
+                    .Include(x => x.Category.Name);
             }
 
             return null;
@@ -100,17 +109,25 @@
 
         public IQueryable<Post> GetByCategoryId(string id)
         {
-            return this.context.Posts.Where(x => x.Categoryid == id).Include(x => x.Category.Name);
+            return this.context.Posts
+                .Where(x => x.Categoryid == id)
+                .Include(x => x.Category.Name);
         }
 
         public Post GetPostById(string id)
         {
-            return this.context.Posts.Include(x => x.Category).Include(x => x.Comments).ThenInclude(z => z.User).FirstOrDefault(x => x.Id == id);
+            return this.context.Posts
+                .Include(x => x.User)
+                .Include(x => x.Category)
+                .Include(x => x.Comments)
+                .ThenInclude(z => z.User)
+                .FirstOrDefault(x => x.Id == id);
         }
 
         public IQueryable<Post> GetPostsByUserName(string name)
         {
-            return this.context.Posts.Where(x => x.User.UserName == name);
+            return this.context.Posts
+                .Where(x => x.User.UserName == name);
         }
 
         public IQueryable<Post> GetPostsUserComments(string name)
@@ -121,7 +138,8 @@
 
             foreach (var comment in comments)
             {
-                var post = this.context.Posts.FirstOrDefault(x => x.Id == comment.PostId);
+                var post = this.context.Posts
+                    .FirstOrDefault(x => x.Id == comment.PostId);
 
                 if (!posts.Contains(post))
                 {

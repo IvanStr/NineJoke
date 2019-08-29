@@ -56,6 +56,7 @@
                 indexViewModel.PostViewModel = viewModel.ToList();
             }
 
+            indexViewModel.sortType = sort;
             indexViewModel.Categories = this.categoryService.GetAll().OrderBy(x => x.Name).ToList();
 
 

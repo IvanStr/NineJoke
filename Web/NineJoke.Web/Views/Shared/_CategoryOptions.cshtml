@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     var Id = Url.ActionContext.RouteData.Values;
 }
 
@@ -28,16 +28,38 @@
 
 <div style="float:left;">
     <div class="vertical-menu">
-        <a asp-controller="Home" asp-action="Index" asp-route-sort="Popular">Popular</a>
-        <a asp-controller="Home" asp-action="Index" asp-route-sort="New">New</a>
-        <hr style="border-width: 3px;"/>
+        @if (Model.sortType == "Popular")
+        {
+            <a asp-controller="Home" asp-action="Index" asp-route-sort="Popular" style="background-color: #bcbcbc;">Popular</a>
+        }
+        else
+        {
+            <a asp-controller="Home" asp-action="Index" asp-route-sort="Popular" id="Popular">Popular</a>
+        }
+        @if (Model.sortType == "New")
+        {
+            <a asp-controller="Home" asp-action="Index" asp-route-sort="New" style="background-color: #bcbcbc;">New</a>
+        }
+        else
+        {
+            <a asp-controller="Home" asp-action="Index" asp-route-sort="New" id="New">New</a>
+        }
+        
+        <hr style="border-width: 3px;" />
     </div>
 
-    <div  class="vertical-menu">
+    <div class="vertical-menu mb-5">
         <a href="#" class="active">Categories</a>
         @foreach (var category in Model.Categories)
         {
-            <a asp-controller="Home" asp-action="Index" asp-route-id="@category.Id">@category.Name</a>
+            if (category.Id.Equals(Id["id"]))
+            {
+                <a asp-controller="Home" asp-action="Index" asp-route-id="@category.Id" id="@category.Name" style="background-color: #bcbcbc;">@category.Name</a>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="Index" asp-route-id="@category.Id" id="@category.Name">@category.Name</a>
+            }
         }
     </div>
 </div>

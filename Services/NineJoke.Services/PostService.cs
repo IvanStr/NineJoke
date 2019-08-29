@@ -89,6 +89,11 @@
             return this.context.Posts.Include(x => x.Category.Name);
         }
 
+        public IQueryable<Post> GetByCategoryId(string id)
+        {
+            return this.context.Posts.Where(x => x.Categoryid == id).Include(x => x.Category.Name);
+        }
+
         public Post GetPostById(string id)
         {
             return this.context.Posts.Include(x => x.Category).Include(x => x.Comments).ThenInclude(z => z.User).FirstOrDefault(x => x.Id == id);

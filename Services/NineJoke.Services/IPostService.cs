@@ -19,6 +19,8 @@
 
         IQueryable<Post> GetAll();
 
+        IQueryable<Post> GetByCategoryId(string id);
+
         IQueryable<Post> GetPostsByUserName(string name);
 
         IQueryable<Post> GetPostsUserComments(string name);

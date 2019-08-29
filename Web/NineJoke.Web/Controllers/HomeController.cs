@@ -11,27 +11,55 @@
     public class HomeController : BaseController
     {
         private readonly IPostService postService;
+        private readonly ICategoryService categoryService;
 
-        public HomeController(IPostService postService)
+        public HomeController(IPostService postService, ICategoryService categoryService)
         {
             this.postService = postService;
+            this.categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
-            var viewModel = this.postService.GetAll().Select(x => new PostViewModel
-            {
-                Id = x.Id,
-                CreatedOn = x.CreatedOn,
-                Title = x.Title,
-                FilePath = x.FilePath,
-                CategoryName = x.Category.Name,
-                Description = x.Description,
-                VoteCount = x.VoteCount,
-                CommentCount = x.CommentCount,
-            }).ToList().OrderByDescending(x => x.CreatedOn);
+            var indexViewModel = new IndexViewModel();
 
-            return this.View(viewModel);
+            if (id == null)
+            {
+                var allPostsViewModel = this.postService.GetAll().Select(x => new PostViewModel
+                {
+                    Id = x.Id,
+                    CreatedOn = x.CreatedOn,
+                    Title = x.Title,
+                    FilePath = x.FilePath,
+                    CategoryName = x.Category.Name,
+                    Description = x.Description,
+                    VoteCount = x.VoteCount,
+                    CommentCount = x.CommentCount,
+                }).ToList().OrderByDescending(x => x.CreatedOn);
+
+                indexViewModel.PostViewModel = allPostsViewModel.ToList();
+            }
+            else
+            {
+                var viewModel = this.postService.GetByCategoryId(id).Select(x => new PostViewModel
+                {
+                    Id = x.Id,
+                    CreatedOn = x.CreatedOn,
+                    Title = x.Title,
+                    FilePath = x.FilePath,
+                    CategoryName = x.Category.Name,
+                    Description = x.Description,
+                    VoteCount = x.VoteCount,
+                    CommentCount = x.CommentCount,
+                }).ToList().OrderByDescending(x => x.CreatedOn);
+
+                indexViewModel.PostViewModel = viewModel.ToList();
+            }
+
+            indexViewModel.Categories = this.categoryService.GetAll().OrderBy(x => x.Name).ToList();
+
+
+            return this.View(indexViewModel);
         }
 
         public IActionResult Privacy()

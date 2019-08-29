@@ -1,6 +1,6 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@{ 
+    var Id = Url.ActionContext.RouteData.Values;
+}
 
 <style>
     .vertical-menu {
@@ -26,12 +26,18 @@
             }
 </style>
 
+<div style="float:left;">
+    <div class="vertical-menu">
+        <a asp-controller="Home" asp-action="Index" asp-route-sort="Popular">Popular</a>
+        <a asp-controller="Home" asp-action="Index" asp-route-sort="New">New</a>
+        <hr style="border-width: 3px;"/>
+    </div>
 
-
-<div style="float:left;" class="vertical-menu">
-    <a href="#" class="active">Categories</a>
-    @foreach (var category in Model.Categories)
-    {
-        <a asp-controller="Home" asp-action="Index" asp-route-id="@category.Id">@category.Name</a>
-    }
+    <div  class="vertical-menu">
+        <a href="#" class="active">Categories</a>
+        @foreach (var category in Model.Categories)
+        {
+            <a asp-controller="Home" asp-action="Index" asp-route-id="@category.Id">@category.Name</a>
+        }
+    </div>
 </div>

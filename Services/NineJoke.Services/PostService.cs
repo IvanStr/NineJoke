@@ -84,9 +84,18 @@
             this.context.SaveChanges();
         }
 
-        public IQueryable<Post> GetAll()
+        public IQueryable<Post> GetAll(string sort)
         {
-            return this.context.Posts.Include(x => x.Category.Name);
+            if (sort == null || sort.Equals(SortType.Popular.ToString()))
+            {
+                return this.context.Posts.OrderByDescending(x => x.VoteCount).Include(x => x.Category.Name);
+            }
+            else if (sort.Equals(SortType.New.ToString()))
+            {
+                return this.context.Posts.OrderByDescending(x => x.CreatedOn).Include(x => x.Category.Name);
+            }
+
+            return null;
         }
 
         public IQueryable<Post> GetByCategoryId(string id)

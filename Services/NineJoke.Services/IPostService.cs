@@ -17,7 +17,7 @@
 
         void AddImageUrl(string id, string imageUrl);
 
-        IQueryable<Post> GetAll();
+        IQueryable<Post> GetAll(string sort);
 
         IQueryable<Post> GetByCategoryId(string id);
 

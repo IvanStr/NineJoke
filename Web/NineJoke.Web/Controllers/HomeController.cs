@@ -19,13 +19,13 @@
             this.categoryService = categoryService;
         }
 
-        public IActionResult Index(string id)
+        public IActionResult Index(string id, string sort)
         {
             var indexViewModel = new IndexViewModel();
 
             if (id == null)
             {
-                var allPostsViewModel = this.postService.GetAll().Select(x => new PostViewModel
+                var allPostsViewModel = this.postService.GetAll(sort).Select(x => new PostViewModel
                 {
                     Id = x.Id,
                     CreatedOn = x.CreatedOn,
@@ -35,7 +35,7 @@
                     Description = x.Description,
                     VoteCount = x.VoteCount,
                     CommentCount = x.CommentCount,
-                }).ToList().OrderByDescending(x => x.CreatedOn);
+                }).ToList();
 
                 indexViewModel.PostViewModel = allPostsViewModel.ToList();
             }
@@ -51,7 +51,7 @@
                     Description = x.Description,
                     VoteCount = x.VoteCount,
                     CommentCount = x.CommentCount,
-                }).ToList().OrderByDescending(x => x.CreatedOn);
+                }).ToList();
 
                 indexViewModel.PostViewModel = viewModel.ToList();
             }

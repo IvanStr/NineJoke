@@ -38,7 +38,7 @@
                     CommentCount = x.CommentCount,
                 }).ToList();
 
-                indexViewModel.PostViewModel = allPostsViewModel.ToList();
+                indexViewModel.PostViewModel = allPostsViewModel;
             }
             else
             {

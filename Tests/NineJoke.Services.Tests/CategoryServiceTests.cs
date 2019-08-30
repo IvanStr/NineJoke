@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NineJoke.Data;
-using NineJoke.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
-
-namespace NineJoke.Services.Tests
+﻿namespace NineJoke.Services.Tests
 {
+    using Microsoft.EntityFrameworkCore;
+    using NineJoke.Data;
+    using NineJoke.Data.Models;
+    using System;
+    using System.Linq;
+    using Xunit;
+
     public class CategoryServiceTests
     {
         [Fact]

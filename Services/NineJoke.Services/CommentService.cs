@@ -28,6 +28,9 @@
         {
             var comment = this.GetById(id);
 
+            var votes = this.context.VoteComments.Where(x => x.CommentId == comment.Id);
+
+            this.context.VoteComments.RemoveRange(votes);
             this.context.Comments.Remove(comment);
             this.context.SaveChanges();
         }

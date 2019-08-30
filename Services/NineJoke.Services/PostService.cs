@@ -97,13 +97,13 @@
             {
                 return this.context.Posts
                     .OrderByDescending(x => x.VoteCount)
-                    .Include(x => x.Category.Name);
+                    .Include(x => x.Category);
             }
             else if (sort.Equals(SortType.New.ToString()))
             {
                 return this.context.Posts
                     .OrderByDescending(x => x.CreatedOn)
-                    .Include(x => x.Category.Name);
+                    .Include(x => x.Category);
             }
 
             return null;

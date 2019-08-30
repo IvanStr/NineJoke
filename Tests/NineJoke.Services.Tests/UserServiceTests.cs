@@ -1,18 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Moq;
-using NineJoke.Data;
-using NineJoke.Data.Models;
-using Xunit;
-
-namespace NineJoke.Services.Tests
+﻿namespace NineJoke.Services.Tests
 {
+    using Microsoft.EntityFrameworkCore;
+    using Moq;
+    using NineJoke.Data;
+    using NineJoke.Data.Models;
+    using Xunit;
+
     public class UserServiceTests
     {
         [Fact]
         public void GetUserByNameShouldReturnCorrectUser()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                  .UseInMemoryDatabase(databaseName: "GetUserCompanyByUsername_Users_Database")
+                  .UseInMemoryDatabase(databaseName: "GetUserByNameShouldReturnCorrectUserDB")
                   .Options;
 
             var dbContext = new ApplicationDbContext(options);
@@ -36,7 +36,7 @@ namespace NineJoke.Services.Tests
         public void GetUserByPostIdShouldReturnCorrectUser()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                  .UseInMemoryDatabase(databaseName: "GetUserCompanyByUsername_Users_Database")
+                  .UseInMemoryDatabase(databaseName: "GetUserByPostIdShouldReturnCorrectUserDB")
                   .Options;
 
             var dbContext = new ApplicationDbContext(options);

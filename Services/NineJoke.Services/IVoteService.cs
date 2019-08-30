@@ -1,7 +1,7 @@
-﻿using NineJoke.Data.Models;
-
-namespace NineJoke.Services
+﻿namespace NineJoke.Services
 {
+    using NineJoke.Data.Models;
+
     public interface IVoteService
     {
         void CreatePostVote(VotePost vote);

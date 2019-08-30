@@ -2,7 +2,9 @@
 {
     using System;
     using System.Linq;
+
     using Microsoft.EntityFrameworkCore;
+
     using NineJoke.Data;
     using NineJoke.Data.Models;
 

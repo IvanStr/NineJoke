@@ -1,15 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Moq;
-using NineJoke.Data;
-using NineJoke.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
-
-namespace NineJoke.Services.Tests
+﻿namespace NineJoke.Services.Tests
 {
+    using Microsoft.EntityFrameworkCore;
+    using Moq;
+    using NineJoke.Data;
+    using NineJoke.Data.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Xunit;
+
     public class PostServiceTests
     {
         [Fact]
@@ -175,7 +174,7 @@ namespace NineJoke.Services.Tests
         public void GetAllShouldReturnAllPostSorted()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                 .UseInMemoryDatabase(databaseName: "EditPostShouldEditCategoryTitleAndDescription")
+                 .UseInMemoryDatabase(databaseName: "GetAllShouldReturnAllPostSorted")
                  .Options;
 
             var dbContext = new ApplicationDbContext(options);

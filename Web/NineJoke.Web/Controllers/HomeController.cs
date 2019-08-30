@@ -30,6 +30,7 @@
                     Id = x.Id,
                     CreatedOn = x.CreatedOn,
                     Title = x.Title,
+                    Username = x.User.UserName,
                     FilePath = x.FilePath,
                     CategoryName = x.Category.Name,
                     Description = x.Description,

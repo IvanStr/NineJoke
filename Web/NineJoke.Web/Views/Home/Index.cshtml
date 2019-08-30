@@ -45,6 +45,11 @@
                 <div>
                     <a asp-controller="Post" asp-action="PostDetails" asp-route-id="@post.Id"><h2 style="color:black;" class="card-title font-weight-bold">@post.Title</h2></a>
                 </div>
+
+                <div class="pb-1 mt-1">
+                    <span class="stars mx-auto pb-1 text">Uploaded by: @post.Username - Uploaded on: @post.CreatedOn</span>
+                </div>
+
                 @if (@post.FilePath.EndsWith("webm"))
                 {
                     <div class="card-img-top zoom">
@@ -69,20 +74,6 @@
                         <span class="stars mx-auto pb-1 text">points: @post.VoteCount - @(post.CommentCount == 1 ? "comment: " : "comments: ") @post.CommentCount - Category: @post.CategoryName</span>
                     </div>
                 </div>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="card-footer d-flex justify-content-around bg-white pl-0 pr-0 pt-0 pb-0">
-                        <label>
-                            <input type="checkbox" class="radio" value="-1" name=@post.Id />
-                            <i id="a" class="fa fa-caret-down" style="font-size:50px;"></i>
-                        </label>
-
-                        <label>
-                            <input type="checkbox" class="radio" value="1" name=@post.Id />
-                            <i id="a" class="fa fa-caret-up" style="font-size:50px;"></i>
-                        </label>
-                    </div>
-                }
             </div>
         </div>
     }

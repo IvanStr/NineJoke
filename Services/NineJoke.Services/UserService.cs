@@ -20,5 +20,11 @@
 
             return user;
         }
+
+        public ApplicationUser GetUserByPostId(string id)
+        {
+            string userId = this.context.Posts.FirstOrDefault(z => z.Id == id).UserId;
+            return this.context.Users.FirstOrDefault(x => x.Id == userId);
+        }
     }
 }

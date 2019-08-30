@@ -21,14 +21,22 @@
         private readonly ICategoryService categoryService;
         private readonly IUserService userService;
         private readonly ICommentService commentService;
+        private readonly IVoteService voteService;
 
-        public PostController(IPostService postService, IImageService imageService, ICategoryService categoryService, IUserService userService, ICommentService commentService)
+        public PostController(
+            IPostService postService,
+            IImageService imageService,
+            ICategoryService categoryService,
+            IUserService userService,
+            ICommentService commentService,
+            IVoteService voteService)
         {
             this.postService = postService;
             this.imageService = imageService;
             this.categoryService = categoryService;
             this.userService = userService;
             this.commentService = commentService;
+            this.voteService = voteService;
         }
 
         public IActionResult PostDetails(string Id)
@@ -62,7 +70,7 @@
                 UserId = x.UserId,
                 UserName = x.User.UserName,
                 PostId = x.PostId,
-            }).ToList();
+            }).OrderByDescending(x => x.VoteCount).ToList();
 
             return this.View(model);
         }
@@ -143,6 +151,63 @@
 
             this.commentService.CreateComment(comment);
             return new JsonResult(model);
+            //return this.RedirectToAction(nameof(this.PostDetails), new { Id = model.Id });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult VoteComment([FromBody] VoteInputModel model)
+        {
+            var currentUser = this.userService.GetUserByName(this.User.Identity.Name);
+
+            var comment = this.commentService.GetById(model.Id);
+
+            var vote = new VoteComment
+            {
+                CommentId = model.Id,
+                UserId = currentUser.Id,
+            };
+
+            if (model.VoteUp == true)
+            {
+                vote.UpOrDown = true;
+            }
+            else if (model.VoteDown == true)
+            {
+                vote.UpOrDown = false;
+            }
+
+            this.voteService.CreateCommentVote(vote);
+
+            return new JsonResult(comment.VoteCount);
+            //return this.RedirectToAction(nameof(this.PostDetails), new { Id = model.Id });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult VotePost([FromBody] VoteInputModel model)
+        {
+            var currentUser = this.userService.GetUserByName(this.User.Identity.Name);
+            var post = this.postService.GetPostById(model.Id);
+
+            var vote = new VotePost
+            {
+                PostId = model.Id,
+                UserId = currentUser.Id,
+            };
+
+            if (model.VoteUp == true)
+            {
+                vote.UpOrDown = true;
+            }
+            else if (model.VoteDown == true)
+            {
+                vote.UpOrDown = false;
+            }
+
+            this.voteService.CreatePostVote(vote);
+
+            return new JsonResult(post.VoteCount.ToString());
             //return this.RedirectToAction(nameof(this.PostDetails), new { Id = model.Id });
         }
 

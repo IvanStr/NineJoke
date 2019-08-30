@@ -1,9 +1,12 @@
 ﻿@{
-
+    int i = 0;
 }
 @using NineJoke.Common
 
 <style>
+    li {
+    display: inline;
+}
 
     img {
         width: 100%;
@@ -65,20 +68,24 @@
                     <p><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.Description</h6></p>
                 </div>
                 <div class="pb-1 mt-1">
-                    <span class="stars mx-auto pb-1 text">points: @Model.VoteCount - @(Model.CommentCount == 1 ? "comment: " : "comments: ") @Model.CommentCount - Category: @Model.CategoryName</span>
+                    <ol>
+                        <li id="voteP">points: @Model.VoteCount -</li>
+                        <li>@(Model.CommentCount == 1 ? "comment: " : "comments: ") @Model.CommentCount -</li>
+                        <li>Category: @Model.CategoryName</li>
+                    </ol>
                 </div>
             </div>
             @if (User.Identity.IsAuthenticated)
             {
                 <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
                     <label>
-                        <input type="checkbox" class="radio" value="-1" name="a" />
-                        <i id="a" class="fa fa-caret-down" style="font-size:50px;"></i>
+                        <input id="up" onclick="@("votePostFunc('" + Model.Id + "')")" type="checkbox" class="radio"  name="a" />
+                        <i id="a" class="fa fa-caret-up" style="font-size:50px;"></i>
                     </label>
 
                     <label>
-                        <input type="checkbox" class="radio" value="1" name="a" />
-                        <i id="a" class="fa fa-caret-up" style="font-size:50px;"></i>
+                        <input id="down" onclick="@("votePostFunc('" + Model.Id + "')")" type="checkbox" class="radio"  name="a" />
+                        <i id="a" class="fa fa-caret-down" style="font-size:50px;"></i>
                     </label>
                 </div>
             }
@@ -108,7 +115,7 @@
                 <textarea id="myTextarea" placeholder="Write a comment..." class="post focus" style="resize: none"></textarea>
                 <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
 
-                    <button onclick="@("myFunction('" + Model.Id + "')")" class="btn btn-primary" data-assigned-id="@Model.Id">Post</button>
+                    <button onclick="@("addCommentFunc('" + Model.Id + "')")" class="btn btn-primary" data-assigned-id="@Model.Id">Post</button>
                 </div>
             </div>
         </div>
@@ -121,7 +128,11 @@
         <div class="col-10 col-sm-10 col-md-8 col-lg-7 mb-7" style="padding-bottom: 20px">
             <div class="card h-100">
                 <div>
-                    <span class="stars mx-auto pb-1 text">@comment.UserName - points: @comment.VoteCount - @comment.CreatedOn</span>
+                    <ol>
+                        <li>@comment.UserName -</li>
+                        <li id="voteC_@i">points: @comment.VoteCount -</li>
+                        <li>@comment.CreatedOn</li>
+                    </ol>
                 </div>
 
 
@@ -131,15 +142,16 @@
                 {
                     <div class="card-footer justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
                         <label style="float: left;">
-                            <input type="checkbox" class="radio" value="1" name=@comment.Id />
+                            <input id="up_@i" onclick="@("voteCommentFunc('" + @i + "')")" type="checkbox" class="radio" name=@comment.Id />
                             <i id="a" class="fa fa-caret-up" style="font-size:30px;"></i>
                         </label>
 
                         <label style="float: left;">
-                            <input type="checkbox" class="radio" value="-1" name=@comment.Id />
+                            <input id="down_@i" onclick="@("voteCommentFunc('" + @i + "')")" type="checkbox" class="radio" name=@comment.Id />
                             <i id="a" class="fa fa-caret-down" style="font-size:30px;"></i>
                         </label>
                     </div>
+                    i++;
                 }
             </div>
         </div>
@@ -147,47 +159,7 @@
 </div>
 
 <script>
-    function myFunction(elem) {
-        var Comment = document.getElementById("myTextarea").value;
-        var PostId = elem
 
-        var data = { Content: Comment, Id: PostId }
-        /*$.ajax({
-            url: 'Post/Test',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function () {
-                alert('success');
-            },
-            error: function () {
-                alert(data.Content);
-            }
-        });*/
-        var data2 = { Content: Comment }
-        console.log('Submitting form...');
-        $.ajax({
-            type: 'POST',
-            url: '/Post/AddComment',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (result) {
-                console.log(data);
-                console.log('Data received: ');
-                console.log(result);
-            },
-            error: function (result) {
-                console.log(data);
-                console.log('ERROR');
-                console.log(result);
-            }
-        });
-        document.getElementById("myTextarea").value = "";
-    }
-</script>
-
-<script>
     $("input:checkbox").on('click', function () {
         var $box = $(this);
         if ($box.is(":checked")) {
@@ -200,4 +172,92 @@
             $box.prop("checked", false);
         }
     });
+
+    function votePostFunc(elem) {
+        
+        var up = document.getElementById("up").checked;
+        var down = document.getElementById("down").checked;
+        var PostId = elem
+        var voteP = document.getElementById("voteP");
+       
+        var data = { VoteUp: up, VoteDown: down, Id: PostId };
+        
+        $.ajax({
+            type: 'POST',
+            url: '/Post/VotePost',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                console.log(data);
+                console.log(result);
+                voteC.innerHTML = "points: " + result + " -";
+            },
+            error: function (result) {
+                console.log(result);
+            }
+        });
+        document.getElementById("up").disabled = true;
+        document.getElementById("down").disabled = true;
+    }
+
+    function voteCommentFunc(elem) {
+        
+        var up = document.getElementById("up_" + elem);
+        var down = document.getElementById("down_" + elem);
+
+        var upValue = up.checked;
+        var downValue = down.checked;
+
+        var CommentId = up.name;
+        var voteC = document.getElementById("voteC_" + elem);
+       
+        var data = { VoteUp: upValue, VoteDown: downValue, Id: CommentId };
+        
+        $.ajax({
+            type: 'POST',
+            url: '/Post/VoteComment',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                console.log(data);
+                console.log(result);
+                voteC.innerHTML = "points: " + result + " -";
+            },
+            error: function (result) {
+                console.log(result);
+            }
+        });
+        up.disabled = true;
+        down.disabled = true;
+    }
+
+    function addCommentFunc(elem) {
+        var Comment = document.getElementById("myTextarea").value;
+        var PostId = elem
+
+        var data = { Content: Comment, Id: PostId }
+
+        console.log('Submitting form...');
+        $.ajax({
+            type: 'POST',
+            url: '/Post/AddComment',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                console.log(result);
+                location.reload();
+            },
+            error: function (result) {
+                console.log(result);
+            }
+        });
+        document.getElementById("myTextarea").value = "";
+    }
+</script>
+
+<script>
+    
 </script>

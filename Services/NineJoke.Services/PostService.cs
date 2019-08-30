@@ -13,12 +13,14 @@
         private readonly ApplicationDbContext context;
         private readonly ICommentService commentService;
         private readonly IReportService reportService;
+        private readonly IUserService userService;
 
-        public PostService(ApplicationDbContext context, ICommentService commentService, IReportService reportService)
+        public PostService(ApplicationDbContext context, ICommentService commentService, IReportService reportService, IUserService userService)
         {
             this.context = context;
             this.commentService = commentService;
             this.reportService = reportService;
+            this.userService = userService;
         }
 
         public void AddImageUrl(string id, string imageUrl)
@@ -116,11 +118,14 @@
 
         public Post GetPostById(string id)
         {
+            var user = this.userService.GetUserByPostId(id);
+
             return this.context.Posts
                 .Include(x => x.User)
                 .Include(x => x.Category)
                 .Include(x => x.Comments)
                 .ThenInclude(z => z.User)
+                .Include(x => x.Votes)
                 .FirstOrDefault(x => x.Id == id);
         }
 

@@ -7,7 +7,7 @@ namespace NineJoke.Data.Models
 {
     public class VoteComment : BaseModel<string>
     {
-        public int UpOrDown { get; set; }
+        public bool UpOrDown { get; set; }
 
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }

@@ -10,6 +10,8 @@
 
         public int VoteCount { get; set; }
 
+        public int Voted { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public string PostId { get; set; }

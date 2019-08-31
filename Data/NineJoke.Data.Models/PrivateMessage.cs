@@ -1,11 +1,9 @@
-﻿using NineJoke.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-
-namespace NineJoke.Data.Models
+﻿namespace NineJoke.Data.Models
 {
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using NineJoke.Data.Common.Models;
+
     public class PrivateMessage : BaseModel<string>
     {
         public PrivateMessage()

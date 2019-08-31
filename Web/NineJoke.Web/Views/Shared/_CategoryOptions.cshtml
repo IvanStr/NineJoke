@@ -28,7 +28,7 @@
 
 <div style="float:left;">
     <div class="vertical-menu">
-        @if (Model.sortType == "Popular")
+        @if (Model.SortType == "Popular")
         {
             <a asp-controller="Home" asp-action="Index" asp-route-sort="Popular" style="background-color: #bcbcbc;">Popular</a>
         }
@@ -36,7 +36,7 @@
         {
             <a asp-controller="Home" asp-action="Index" asp-route-sort="Popular" id="Popular">Popular</a>
         }
-        @if (Model.sortType == "New")
+        @if (Model.SortType == "New")
         {
             <a asp-controller="Home" asp-action="Index" asp-route-sort="New" style="background-color: #bcbcbc;">New</a>
         }

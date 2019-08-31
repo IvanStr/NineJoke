@@ -10,6 +10,6 @@
 
         public IList<PostViewModel> PostViewModel { get; set; }
 
-        public string sortType { get; set; }
+        public string SortType { get; set; }
     }
 }

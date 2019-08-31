@@ -4,12 +4,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc;
     using NineJoke.Data.Common.Repositories;
     using NineJoke.Data.Models;
     using NineJoke.Services.Mapping;
     using NineJoke.Web.ViewModels.Settings;
-
-    using Microsoft.AspNetCore.Mvc;
 
     public class SettingsController : BaseController
     {

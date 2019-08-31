@@ -36,6 +36,48 @@
         [type=checkbox]:checked + [id=a] {
             color: blue;
         }
+
+        /* Dropdown Button */
+    .dropbtn {
+        background-color: #ddd;
+        color: black;
+        padding: 5px 10px;
+        font-size: 16px;
+        border: none;
+    }
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+            /* Change color of dropdown links on hover */
+            .dropdown-content a:hover {
+                background-color: #ddd;
+            }
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    /* Change the background color of the dropdown button when the dropdown content is shown */
+    .dropdown:hover .dropbtn {
+        background-color: #bbf;
+    }
 </style>
 
 <div align="center">
@@ -79,12 +121,26 @@
             {
                 <div class="card-footer d-flex justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
                     <label>
-                        <input id="up" onclick="@("votePostFunc('" + Model.Id + "')")" type="checkbox" class="radio"  name="a" />
+                        @if (Model.Voted == 1)
+                        {
+                            <input id="up" onclick="@("votePostFunc('" + Model.Id + "', 1)")" type="checkbox" class="radio" name="a" checked />
+                        }
+                        else
+                        {
+                            <input id="up" onclick="@("votePostFunc('" + Model.Id + "', 1)")" type="checkbox" class="radio" name="a" />
+                        }
                         <i id="a" class="fa fa-caret-up" style="font-size:50px;"></i>
                     </label>
 
                     <label>
-                        <input id="down" onclick="@("votePostFunc('" + Model.Id + "')")" type="checkbox" class="radio"  name="a" />
+                        @if (Model.Voted == -1)
+                        {
+                            <input id="down" onclick="@("votePostFunc('" + Model.Id + "', -1)")" type="checkbox" class="radio" name="a" checked/>
+                        }
+                        else
+                        {
+                            <input id="down" onclick="@("votePostFunc('" + Model.Id + "', -1)")" type="checkbox" class="radio" name="a" />
+                        }
                         <i id="a" class="fa fa-caret-down" style="font-size:50px;"></i>
                     </label>
                 </div>
@@ -122,7 +178,21 @@
     </div>
 }
 
-<div align="center">
+
+
+
+<div id="comments" align="center">
+    @if (Model.Comments.Count != 0)
+    {
+        <div class="dropdown">
+            <button class="dropbtn">Sort</button>
+            <div class="dropdown-content">
+                <a asp-area="" asp-controller="Post" asp-action="PostDetails" asp-route-sortType="Popular" asp-fragment="comments" class="dropdown-item nav-link text-black-50"><i></i>Popular</a>
+                <a asp-area="" asp-controller="Post" asp-action="PostDetails" asp-route-sortType="New" asp-fragment="comments" class="dropdown-item nav-link text-black-50"><i></i>New</a>
+            </div>
+        </div>
+    }
+
     @foreach (var comment in Model.Comments)
     {
         <div class="col-10 col-sm-10 col-md-8 col-lg-7 mb-7" style="padding-bottom: 20px">
@@ -142,12 +212,26 @@
                 {
                     <div class="card-footer justify-content-around text-center bg-white pl-0 pr-0 pt-0 pb-0">
                         <label style="float: left;">
-                            <input id="up_@i" onclick="@("voteCommentFunc('" + @i + "')")" type="checkbox" class="radio" name=@comment.Id />
+                            @if (comment.Voted == 1)
+                            {
+                                <input id="up_@i" onclick="@("voteCommentFunc('" + @i + "', 1)")" type="checkbox" class="radio" name=@comment.Id checked />
+                            }
+                            else
+                            {
+                                <input id="up_@i" onclick="@("voteCommentFunc('" + @i + "', 1)")" type="checkbox" class="radio" name=@comment.Id />
+                            }
                             <i id="a" class="fa fa-caret-up" style="font-size:30px;"></i>
                         </label>
 
                         <label style="float: left;">
-                            <input id="down_@i" onclick="@("voteCommentFunc('" + @i + "')")" type="checkbox" class="radio" name=@comment.Id />
+                            @if (comment.Voted == -1)
+                            {
+                                <input id="down_@i" onclick="@("voteCommentFunc('" + @i + "', -1)")" type="checkbox" class="radio" name=@comment.Id checked/>
+                            }
+                            else
+                            {
+                                <input id="down_@i" onclick="@("voteCommentFunc('" + @i + "', -1)")" type="checkbox" class="radio" name=@comment.Id />
+                            }
                             <i id="a" class="fa fa-caret-down" style="font-size:30px;"></i>
                         </label>
                     </div>
@@ -160,27 +244,37 @@
 
 <script>
 
-    $("input:checkbox").on('click', function () {
-        var $box = $(this);
-        if ($box.is(":checked")) {
+    //$("input:checkbox").on('click', function () {
+    //    var $box = $(this);
+    //    if ($box.is(":checked")) {
 
-            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+    //        var group = "input:checkbox[name='" + $box.attr("name") + "']";
 
-            $(group).prop("checked", false);
-            $box.prop("checked", true);
-        } else {
-            $box.prop("checked", false);
-        }
-    });
+    //        $(group).prop("checked", false);
+    //        $box.prop("checked", true);
+    //    } else {
+    //        $box.prop("checked", false);
+    //    }
+    //});
 
-    function votePostFunc(elem) {
+    function votePostFunc(elem, UoD) {
         
         var up = document.getElementById("up").checked;
         var down = document.getElementById("down").checked;
         var PostId = elem
         var voteP = document.getElementById("voteP");
-       
-        var data = { VoteUp: up, VoteDown: down, Id: PostId };
+
+        if (UoD == 1 && up == down && up == true) {
+            document.getElementById("down").checked = false;
+        }
+        else if (UoD == -1 && up == down && up == true) {
+            document.getElementById("up").checked = false;
+        }
+
+        up = document.getElementById("up").checked;
+        down = document.getElementById("down").checked;
+
+        var data = { VoteUp: up, VoteDown: down, Id: PostId};
         
         $.ajax({
             type: 'POST',
@@ -197,12 +291,12 @@
                 console.log(result);
             }
         });
-        document.getElementById("up").disabled = true;
-        document.getElementById("down").disabled = true;
+        //document.getElementById("up").disabled = true;
+        
     }
 
-    function voteCommentFunc(elem) {
-        
+    function voteCommentFunc(elem, UoD) {
+
         var up = document.getElementById("up_" + elem);
         var down = document.getElementById("down_" + elem);
 
@@ -211,7 +305,17 @@
 
         var CommentId = up.name;
         var voteC = document.getElementById("voteC_" + elem);
-       
+
+        if (UoD == 1 && upValue == downValue && upValue == true) {
+            down.checked = false;
+        }
+        else if (UoD == -1 && upValue == downValue && upValue == true) {
+            up.checked = false;
+        }
+
+        upValue = document.getElementById("up_" + elem).checked;
+        downValue = document.getElementById("down_" + elem).checked;
+
         var data = { VoteUp: upValue, VoteDown: downValue, Id: CommentId };
         
         $.ajax({
@@ -229,8 +333,6 @@
                 console.log(result);
             }
         });
-        up.disabled = true;
-        down.disabled = true;
     }
 
     function addCommentFunc(elem) {

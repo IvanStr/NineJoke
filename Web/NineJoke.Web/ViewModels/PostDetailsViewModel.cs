@@ -21,8 +21,10 @@
 
         public int VoteCount { get; set; }
 
+        public int Voted { get; set; }
+
         public int CommentCount { get; set; }
 
-        public ICollection<CommentsViewModel> Comments { get; set; }
+        public IList<CommentsViewModel> Comments { get; set; }
     }
 }

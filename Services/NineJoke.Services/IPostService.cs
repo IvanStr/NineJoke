@@ -19,7 +19,7 @@
 
         IQueryable<Post> GetAll(string sort);
 
-        IQueryable<Post> GetByCategoryId(string id);
+        IQueryable<Post> GetByCategoryId(string id, string sort);
 
         IQueryable<Post> GetPostsByUserName(string name);
 

@@ -1,10 +1,7 @@
-﻿using NineJoke.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NineJoke.Data.Models
+﻿namespace NineJoke.Data.Models
 {
+    using NineJoke.Data.Common.Models;
+
     public class VoteComment : BaseModel<string>
     {
         public bool UpOrDown { get; set; }

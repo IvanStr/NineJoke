@@ -1,10 +1,9 @@
-﻿using NineJoke.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NineJoke.Data.Models
+﻿namespace NineJoke.Data.Models
 {
+    using System.Collections.Generic;
+
+    using NineJoke.Data.Common.Models;
+
     public class Post : BaseModel<string>
     {
         public Post()

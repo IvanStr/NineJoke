@@ -42,7 +42,7 @@
             }
             else
             {
-                var viewModel = this.postService.GetByCategoryId(id).Select(x => new PostViewModel
+                var viewModel = this.postService.GetByCategoryId(id, sort).Select(x => new PostViewModel
                 {
                     Id = x.Id,
                     CreatedOn = x.CreatedOn,
@@ -57,9 +57,8 @@
                 indexViewModel.PostViewModel = viewModel.ToList();
             }
 
-            indexViewModel.sortType = sort;
+            indexViewModel.SortType = sort;
             indexViewModel.Categories = this.categoryService.GetAll().OrderBy(x => x.Name).ToList();
-
 
             return this.View(indexViewModel);
         }

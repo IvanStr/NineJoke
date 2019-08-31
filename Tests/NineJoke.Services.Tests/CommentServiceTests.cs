@@ -45,7 +45,7 @@
         public void DeleteCommentShouldDeleteCommentAndDeleteVotesFromIt()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "CreateCategoryShouldCreateCategoryDB")
+                .UseInMemoryDatabase(databaseName: "DeleteCommentShouldDeleteCommentAndDeleteVotesFromIt")
                 .Options;
 
             var dbContext = new ApplicationDbContext(options);

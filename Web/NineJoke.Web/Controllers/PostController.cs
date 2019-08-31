@@ -39,13 +39,20 @@
             this.voteService = voteService;
         }
 
-        public IActionResult PostDetails(string Id)
+        public IActionResult PostDetails(string id, string sortType)
         {
-            var post = this.postService.GetPostById(Id);
+            var user = this.userService.GetUserByName(this.User.Identity.Name);
+            var post = this.postService.GetPostById(id);
+            var voted = 0;
 
             if (post == null)
             {
                 return this.View("MissingPost");
+            }
+
+            if (user != null)
+            {
+                voted = this.voteService.CheckPostVote(post.Id, user.Id);
             }
 
             var model = new PostDetailsViewModel
@@ -58,19 +65,44 @@
                 Description = post.Description,
                 CategoryName = post.Category.Name,
                 VoteCount = post.VoteCount,
+                Voted = voted,
                 CommentCount = post.CommentCount,
             };
 
-            model.Comments = post.Comments.Select(x => new CommentsViewModel
+            if (sortType == null || sortType.Contains(SortType.Popular.ToString()))
             {
-                Id = x.Id,
-                Content = x.Content,
-                VoteCount = x.VoteCount,
-                CreatedOn = x.CreatedOn,
-                UserId = x.UserId,
-                UserName = x.User.UserName,
-                PostId = x.PostId,
-            }).OrderByDescending(x => x.VoteCount).ToList();
+                model.Comments = post.Comments.Select(x => new CommentsViewModel
+                {
+                    Id = x.Id,
+                    Content = x.Content,
+                    VoteCount = x.VoteCount,
+                    CreatedOn = x.CreatedOn,
+                    UserId = x.UserId,
+                    UserName = x.User.UserName,
+                    PostId = x.PostId,
+                }).OrderByDescending(x => x.VoteCount).ToList();
+            }
+            else if (sortType.Contains(SortType.New.ToString()))
+            {
+                model.Comments = post.Comments.Select(x => new CommentsViewModel
+                {
+                    Id = x.Id,
+                    Content = x.Content,
+                    VoteCount = x.VoteCount,
+                    CreatedOn = x.CreatedOn,
+                    UserId = x.UserId,
+                    UserName = x.User.UserName,
+                    PostId = x.PostId,
+                }).OrderBy(x => x.CreatedOn).ToList();
+            }
+
+            if (user != null)
+            {
+                for (int i = 0; i < model.Comments.Count(); i++)
+                {
+                    model.Comments[i].Voted = this.voteService.CheckCommentVote(model.Comments[i].Id, user.Id);
+                }
+            }
 
             return this.View(model);
         }
@@ -151,7 +183,6 @@
 
             this.commentService.CreateComment(comment);
             return new JsonResult(model);
-            //return this.RedirectToAction(nameof(this.PostDetails), new { Id = model.Id });
         }
 
         [Authorize]
@@ -159,28 +190,38 @@
         public IActionResult VoteComment([FromBody] VoteInputModel model)
         {
             var currentUser = this.userService.GetUserByName(this.User.Identity.Name);
-
             var comment = this.commentService.GetById(model.Id);
+            var userVote = this.voteService.GetVoteCommentById(comment.Id, currentUser.Id);
 
-            var vote = new VoteComment
+            if (model.VoteDown != model.VoteUp && userVote == null)
             {
-                CommentId = model.Id,
-                UserId = currentUser.Id,
-            };
+                var vote = new VoteComment
+                {
+                    CommentId = model.Id,
+                    UserId = currentUser.Id,
+                };
 
-            if (model.VoteUp == true)
-            {
-                vote.UpOrDown = true;
+                if (model.VoteUp == true)
+                {
+                    vote.UpOrDown = true;
+                }
+                else if (model.VoteDown == true)
+                {
+                    vote.UpOrDown = false;
+                }
+
+                this.voteService.CreateCommentVote(vote);
             }
-            else if (model.VoteDown == true)
+            else if (model.VoteDown != model.VoteUp && userVote != null)
             {
-                vote.UpOrDown = false;
+                this.voteService.ChangeCommentVote(userVote, model.VoteUp);
             }
-
-            this.voteService.CreateCommentVote(vote);
+            else if (model.VoteDown == model.VoteUp && userVote != null)
+            {
+                this.voteService.DeleteCommentVote(userVote);
+            }
 
             return new JsonResult(comment.VoteCount);
-            //return this.RedirectToAction(nameof(this.PostDetails), new { Id = model.Id });
         }
 
         [Authorize]
@@ -189,26 +230,37 @@
         {
             var currentUser = this.userService.GetUserByName(this.User.Identity.Name);
             var post = this.postService.GetPostById(model.Id);
+            var userVote = this.voteService.GetVotePostById(post.Id, currentUser.Id);
 
-            var vote = new VotePost
+            if (model.VoteDown != model.VoteUp && userVote == null)
             {
-                PostId = model.Id,
-                UserId = currentUser.Id,
-            };
+                var vote = new VotePost
+                {
+                    PostId = model.Id,
+                    UserId = currentUser.Id,
+                };
 
-            if (model.VoteUp == true)
-            {
-                vote.UpOrDown = true;
+                if (model.VoteUp == true)
+                {
+                    vote.UpOrDown = true;
+                }
+                else if (model.VoteDown == true)
+                {
+                    vote.UpOrDown = false;
+                }
+
+                this.voteService.CreatePostVote(vote);
             }
-            else if (model.VoteDown == true)
+            else if (model.VoteDown != model.VoteUp && userVote != null)
             {
-                vote.UpOrDown = false;
+                this.voteService.ChangePostVote(userVote, model.VoteUp);
             }
-
-            this.voteService.CreatePostVote(vote);
+            else if (model.VoteDown == model.VoteUp && userVote != null)
+            {
+                this.voteService.DeletePostVote(userVote);
+            }
 
             return new JsonResult(post.VoteCount.ToString());
-            //return this.RedirectToAction(nameof(this.PostDetails), new { Id = model.Id });
         }
 
         [Authorize]
@@ -216,7 +268,7 @@
         {
             this.commentService.DeleteComment(id);
 
-            return this.RedirectToAction("UserComments","User");
+            return this.RedirectToAction("UserComments", "User");
         }
 
         [Authorize]

@@ -63,10 +63,16 @@
             category.Popularity--;
 
             var reports = this.reportService.GetReportsByPostId(id);
+            var votes = this.context.VotePosts.Where(x => x.PostId == post.Id);
 
             if (reports != null)
             {
-                this.context.RemoveRange(reports);
+                this.context.ReportPosts.RemoveRange(reports);
+            }
+
+            if (votes != null)
+            {
+                this.context.VotePosts.RemoveRange(votes);
             }
 
             this.context.Posts.Remove(post);
@@ -109,17 +115,28 @@
             return null;
         }
 
-        public IQueryable<Post> GetByCategoryId(string id)
+        public IQueryable<Post> GetByCategoryId(string id, string sort)
         {
-            return this.context.Posts
-                .Where(x => x.Categoryid == id)
-                .Include(x => x.Category.Name);
+            if (sort == null || sort.Equals(SortType.Popular.ToString()))
+            {
+                return this.context.Posts
+                    .Where(x => x.Categoryid == id)
+                    .OrderByDescending(x => x.VoteCount)
+                    .Include(x => x.Category);
+            }
+            else if (sort.Equals(SortType.New.ToString()))
+            {
+                return this.context.Posts
+                    .Where(x => x.Categoryid == id)
+                    .OrderByDescending(x => x.CreatedOn)
+                    .Include(x => x.Category);
+            }
+
+            return null;
         }
 
         public Post GetPostById(string id)
         {
-            var user = this.userService.GetUserByPostId(id);
-
             return this.context.Posts
                 .Include(x => x.User)
                 .Include(x => x.Category)
@@ -155,8 +172,6 @@
             var queryable = posts.AsQueryable();
 
             return queryable;
-
-            //return this.context.Posts.Where(x => x.User.UserName == name);
         }
     }
 }
